@@ -1,0 +1,22 @@
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Subtle glass effect helpers */
+.glass {
+  background: linear-gradient(
+      to bottom right,
+      rgba(139,92,246,0.12),
+      rgba(139,92,246,0.06)
+    );
+  backdrop-filter: blur(6px);
+}
+
+/* Clamp helper if needed */
+.clamp-3 {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
