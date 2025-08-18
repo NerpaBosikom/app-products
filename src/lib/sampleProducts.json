@@ -1,0 +1,20 @@
+[
+  {
+    "id": 1,
+    "title": "Violet Headphones",
+    "description": "Lightweight wireless headphones with rich bass and clear mids. Soft ear cushions and 30 hours of battery life.",
+    "price": 79,
+    "brand": "Aurora",
+    "category": "audio",
+    "thumbnail": "https://images.unsplash.com/photo-1518444380708-6f6f1b8b75a0?q=80&w=800&auto=format&fit=crop"
+  },
+  {
+    "id": 2,
+    "title": "Matte Violet Mug",
+    "description": "Ceramic mug with a matte finish and a heat-retaining thick wall. 350ml capacity, dishwasher safe.",
+    "price": 12,
+    "brand": "Clay&Co",
+    "category": "kitchen",
+    "thumbnail": "https://images.unsplash.com/photo-1567931676120-3a7a2d8f9b90?q=80&w=800&auto=format&fit=crop"
+  }
+]
