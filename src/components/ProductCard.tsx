@@ -50,7 +50,7 @@ export function ProductCard({
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <Card className="relative">
+      <Card className="relative flex flex-col h-full">
         {/* Like */}
         <button
           aria-label="like"
@@ -89,7 +89,6 @@ export function ProductCard({
               </DialogHeader>
               <DialogFooter className="flex gap-2 justify-end">
                 <Button variant="outline">Отмена</Button>
-                {/* у кнопки удаления красим классами, чтобы не добавлять новый variant */}
                 <Button
                   variant="default"
                   className="bg-red-600 hover:bg-red-700 focus-visible:ring-red-400"
@@ -102,7 +101,7 @@ export function ProductCard({
           </Dialog>
         </div>
 
-        <Link to={`/products/${id}`}>
+        <Link to={`/products/${id}`} className="flex-1 flex flex-col">
           <CardHeader>
             {thumbnail ? (
               <img
@@ -115,9 +114,11 @@ export function ProductCard({
               <div className="w-full h-40 rounded-lg bg-gradient-to-br from-violet-100 to-violet-200" />
             )}
           </CardHeader>
-          <CardContent>
-            <CardTitle className="mb-1">{title}</CardTitle>
-            <p className="line-clamp-3">{description}</p>
+          <CardContent className="flex-1 flex flex-col justify-between">
+            <div>
+              <CardTitle className="mb-1">{title}</CardTitle>
+              <p className="line-clamp-3">{description}</p>
+            </div>
             {price !== undefined && (
               <p className="mt-2 font-medium text-violet-700">{price} $</p>
             )}
