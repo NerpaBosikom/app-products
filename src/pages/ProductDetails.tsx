@@ -1,50 +1,105 @@
-
-import { Link, useParams } from 'react-router-dom'
-import { useProductsStore } from '../store/products'
-import { Button } from '../components/ui/button'
-import { Badge } from '../components/ui/badge'
-import { Separator } from '../components/ui/separator'
-import { motion } from 'framer-motion'
-import { FiArrowLeft } from 'react-icons/fi'
+import { useParams, Link } from "react-router-dom";
+import { useProductsStore } from "../store/products";
+import { Button } from "../components/ui/button";
+import { FiArrowLeft } from "react-icons/fi";
+import { useState } from "react";
 
 export function ProductDetails() {
-  const { id } = useParams()
-  const productId = Number(id)
-  const product = useProductsStore(s => s.products.find(p => p.id === productId))
+  const { id } = useParams();
+  const { products } = useProductsStore();
+  const [imageError, setImageError] = useState(false);
+
+  const product = products.find((p) => p.id === Number(id));
 
   if (!product) {
     return (
-      <div className="space-y-4">
-        <p>Product not found.</p>
-        <Link to="/products"><Button variant="outline"><FiArrowLeft/> Back</Button></Link>
+      <div className="text-center py-20">
+        <h2 className="text-2xl font-bold text-gray-900 mb-4">
+          Товар не найден
+        </h2>
+        <Link to="/products">
+          <Button className="bg-violet-600 hover:bg-violet-700 text-white">
+            Вернуться к товарам
+          </Button>
+        </Link>
       </div>
-    )
+    );
   }
 
   return (
-    <motion.div initial={{opacity:0, y:8}} animate={{opacity:1, y:0}} className="grid md:grid-cols-2 gap-6">
-      <div>
-        <img src={product.images?.[0] || product.thumbnail} alt={product.title} className="w-full rounded-xl border border-violet-200" />
-        <div className="mt-2 flex gap-2 flex-wrap">
-          {product.images?.slice(1,5).map((src, idx) => (
-            <img key={idx} src={src} alt={`${product.title} ${idx}`} className="h-16 w-16 object-cover rounded-md border border-violet-200" />
-          ))}
+    <div className="max-w-4xl mx-auto">
+      <Link to="/products" className="inline-block mb-6">
+        <Button variant="outline" className="flex items-center gap-2">
+          <FiArrowLeft className="w-4 h-4" />
+          Назад к товарам
+        </Button>
+      </Link>
+
+      <div className="bg-white/90 backdrop-blur-lg rounded-2xl shadow-lg p-8 border border-gray-200">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div>
+            {product.thumbnail ? (
+              <img
+                src={imageError ? "/placeholder.png" : product.thumbnail}
+                alt={product.title}
+                className="w-full h-64 object-cover rounded-xl"
+                onError={() => setImageError(true)}
+              />
+            ) : (
+              <div className="w-full h-64 bg-gradient-to-br from-violet-100 to-violet-200 rounded-xl flex items-center justify-center">
+                <span className="text-violet-500 font-medium">No Image</span>
+              </div>
+            )}
+          </div>
+
+          <div>
+            <h1 className="text-3xl font-bold text-gray-900 mb-4">
+              {product.title}
+            </h1>
+
+            {product.brand && (
+              <p className="text-gray-600 mb-2">
+                <span className="font-semibold">Бренд:</span> {product.brand}
+              </p>
+            )}
+
+            {product.category && (
+              <p className="text-gray-600 mb-4">
+                <span className="font-semibold">Категория:</span>{" "}
+                {product.category}
+              </p>
+            )}
+
+            {product.price !== undefined && (
+              <p className="text-2xl font-bold text-violet-700 mb-6">
+                ${product.price}
+              </p>
+            )}
+
+            <div className="mb-6">
+              <h3 className="text-lg font-semibold text-gray-900 mb-2">
+                Описание
+              </h3>
+              <p className="text-gray-600 leading-relaxed">
+                {product.description}
+              </p>
+            </div>
+
+            <div className="flex gap-4">
+              <Link to="/products" className="flex-1">
+                <Button variant="outline" className="w-full">
+                  Все товары
+                </Button>
+              </Link>
+              <Link to={`/edit-product/${product.id}`} className="flex-1">
+                <Button className="w-full bg-blue-600 hover:bg-blue-700 text-white">
+                  Редактировать
+                </Button>
+              </Link>
+            </div>
+          </div>
         </div>
       </div>
-      <div>
-        <h1 className="text-2xl font-semibold text-slate-800">{product.title}</h1>
-        <div className="mt-2 flex gap-2">
-          {product.brand && <Badge>{product.brand}</Badge>}
-          {product.category && <Badge>{product.category}</Badge>}
-        </div>
-        <Separator />
-        <p className="text-slate-700">{product.description}</p>
-        {product.price !== undefined && <p className="mt-3 text-xl font-semibold text-violet-700">{product.price} $</p>}
-        <div className="mt-6 flex gap-3">
-          <Link to="/products"><Button variant="outline"><FiArrowLeft/> Back to list</Button></Link>
-          <Link to={`/products/${product.id}/edit`}><Button>Edit</Button></Link>
-        </div>
-      </div>
-    </motion.div>
-  )
+    </div>
+  );
 }
