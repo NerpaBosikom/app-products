@@ -7,13 +7,14 @@ export function Header() {
   const location = useLocation();
   const navigate = useNavigate();
 
-  // Проверяем, активен ли фильтр "liked" через URL параметры
   const isLikedFilterActive = () => {
     const searchParams = new URLSearchParams(location.search);
     return searchParams.get("filter") === "liked";
   };
 
   const handleHeartClick = () => {
+    if (!isFilterablePage) return;
+
     const searchParams = new URLSearchParams(location.search);
 
     if (isLikedFilterActive()) {
@@ -25,7 +26,6 @@ export function Header() {
     navigate(`${location.pathname}?${searchParams.toString()}`);
   };
 
-  // Проверяем, находимся ли мы на странице, где есть фильтрация
   const isFilterablePage =
     location.pathname === "/" || location.pathname === "/products";
 
@@ -60,7 +60,7 @@ export function Header() {
           </NavLink>
 
           <div
-            onClick={isFilterablePage ? handleHeartClick : undefined}
+            onClick={handleHeartClick}
             className={`flex items-center gap-2 ml-4 px-3 py-2 rounded-xl border shadow-sm transition-all ${
               isLikedFilterActive()
                 ? "bg-gradient-to-br from-violet-600 to-purple-500 text-white border-violet-600 shadow-md"
@@ -68,10 +68,14 @@ export function Header() {
             } ${
               isFilterablePage
                 ? "hover:bg-violet-100/80 cursor-pointer"
-                : "cursor-default"
+                : "cursor-default opacity-70"
             }`}
           >
-            <FiHeart className="w-5 h-5 text-red-500" />
+            <FiHeart
+              className={`w-5 h-5 ${
+                isLikedFilterActive() ? "text-white" : "text-red-500"
+              }`}
+            />
             <span className="text-sm font-medium">{likes.size}</span>
           </div>
         </nav>

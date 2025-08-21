@@ -9,7 +9,6 @@ export type ToastItem = {
   variant?: ToastVariant;
 };
 
-// --- простейший стор для тостов ---
 type Listener = (toasts: ToastItem[]) => void;
 
 const store = {
@@ -31,9 +30,9 @@ function add(toast: Omit<ToastItem, "id">) {
   const t: ToastItem = { id, ...toast };
   store.toasts = [...store.toasts, t];
   notify();
-  // авто-снятие через 3 сек
-  setTimeout(() => remove(id), 3000);
-  return id;
+
+  const timeout = setTimeout(() => remove(id), 3000);
+  return () => clearTimeout(timeout);
 }
 
 function remove(id: string) {
@@ -50,15 +49,14 @@ export function subscribe(listener: Listener) {
 }
 
 export function useToast() {
-  const toast = React.useCallback(
-    (opts: Omit<ToastItem, "id">) => ({ id: add(opts) }),
-    []
-  );
+  const toast = React.useCallback((opts: Omit<ToastItem, "id">) => {
+    const cleanup = add(opts);
+    return { id: opts.title, dismiss: () => cleanup() };
+  }, []);
   const dismiss = React.useCallback((id: string) => remove(id), []);
   return { toast, dismiss };
 }
 
-// Для Toaster, чтобы рисовать список
 export function useToastList() {
   const [toasts, setToasts] = React.useState<ToastItem[]>([]);
   React.useEffect(() => subscribe(setToasts), []);

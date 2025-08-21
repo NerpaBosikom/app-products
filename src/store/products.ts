@@ -26,11 +26,16 @@ type State = {
 const persistKey = "app-products-state-v1";
 
 function saveToLocalStorage(state: Pick<State, "products" | "likes">) {
-  const payload = {
-    products: state.products,
-    likes: Array.from(state.likes),
-  };
-  localStorage.setItem(persistKey, JSON.stringify(payload));
+  try {
+    const payload = {
+      products: state.products,
+      likes: Array.from(state.likes),
+      timestamp: Date.now(),
+    };
+    localStorage.setItem(persistKey, JSON.stringify(payload));
+  } catch (error) {
+    console.warn("Failed to save to localStorage:", error);
+  }
 }
 
 function loadFromLocalStorage(): {
@@ -40,12 +45,21 @@ function loadFromLocalStorage(): {
   try {
     const raw = localStorage.getItem(persistKey);
     if (!raw) return null;
+
     const parsed = JSON.parse(raw);
+
+    if (!parsed.products || !Array.isArray(parsed.products)) return null;
+    if (!parsed.likes || !Array.isArray(parsed.likes)) return null;
+
+    const oneWeekAgo = Date.now() - 7 * 24 * 60 * 60 * 1000;
+    if (parsed.timestamp && parsed.timestamp < oneWeekAgo) return null;
+
     return {
       products: parsed.products || [],
       likes: new Set<number>(parsed.likes || []),
     };
-  } catch {
+  } catch (error) {
+    console.warn("Failed to load from localStorage:", error);
     return null;
   }
 }

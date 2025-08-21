@@ -1,4 +1,3 @@
-// src/components/Pagination.tsx
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 
 type Props = {
@@ -13,7 +12,6 @@ export function Pagination({ page, totalPages, onPage }: Props) {
   const prev = () => onPage(Math.max(1, page - 1));
   const next = () => onPage(Math.min(totalPages, page + 1));
 
-  // Показываем только ограниченное количество страниц
   const getVisiblePages = () => {
     const maxVisible = 5;
     const half = Math.floor(maxVisible / 2);
@@ -32,7 +30,6 @@ export function Pagination({ page, totalPages, onPage }: Props) {
 
   return (
     <div className="flex items-center gap-2 justify-center mt-8">
-      {/* Кнопка назад */}
       <button
         onClick={prev}
         disabled={page === 1}
@@ -41,7 +38,6 @@ export function Pagination({ page, totalPages, onPage }: Props) {
         <FiChevronLeft className="w-5 h-5" />
       </button>
 
-      {/* Первая страница */}
       {visiblePages[0] > 1 && (
         <>
           <button
@@ -56,7 +52,6 @@ export function Pagination({ page, totalPages, onPage }: Props) {
         </>
       )}
 
-      {/* Видимые страницы */}
       {visiblePages.map((p) => (
         <button
           key={p}
@@ -71,7 +66,6 @@ export function Pagination({ page, totalPages, onPage }: Props) {
         </button>
       ))}
 
-      {/* Последняя страница */}
       {visiblePages[visiblePages.length - 1] < totalPages && (
         <>
           {visiblePages[visiblePages.length - 1] < totalPages - 1 && (
@@ -86,7 +80,6 @@ export function Pagination({ page, totalPages, onPage }: Props) {
         </>
       )}
 
-      {/* Кнопка вперед */}
       <button
         onClick={next}
         disabled={page === totalPages}

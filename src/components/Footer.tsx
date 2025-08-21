@@ -1,4 +1,3 @@
-// src/components/Footer.tsx
 import { FiGithub, FiHeart } from "react-icons/fi";
 
 export function Footer() {
@@ -6,7 +5,6 @@ export function Footer() {
     <footer className="mt-20 bg-white/90 backdrop-blur-lg border-t border-violet-100">
       <div className="container mx-auto px-4 py-8">
         <div className="flex flex-col items-center gap-4 text-center">
-          {/* Основной текст с градиентом */}
           <div className="bg-gradient-to-r from-violet-600 to-purple-500 bg-clip-text text-transparent">
             <p className="text-lg font-semibold">Developed with</p>
             <div className="flex items-center justify-center gap-2 mt-1">
@@ -17,7 +15,6 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Ссылка на GitHub с градиентом */}
           <a
             href="https://github.com/NerpaBosikom"
             target="_blank"
@@ -28,7 +25,6 @@ export function Footer() {
             <span className="font-medium">GitHub</span>
           </a>
 
-          {/* Декоративный элемент с градиентом */}
           <div className="w-24 h-1 bg-gradient-to-r from-violet-400 to-purple-400 rounded-full mt-2" />
         </div>
       </div>

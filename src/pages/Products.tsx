@@ -11,19 +11,16 @@ const PAGE_SIZE = 12;
 
 export function Products() {
   const { products, fetchAll, likes, loading, error } = useProductsStore();
-  const [showOnlyLiked, setShowOnlyLiked] = useState(false);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
   const location = useLocation();
 
+  const searchParams = new URLSearchParams(location.search);
+  const showOnlyLiked = searchParams.get("filter") === "liked";
+
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
-
-  useEffect(() => {
-    const searchParams = new URLSearchParams(location.search);
-    setShowOnlyLiked(searchParams.get("filter") === "liked");
-  }, [location.search]);
 
   useEffect(() => {
     setPage(1);
@@ -69,6 +66,20 @@ export function Products() {
     return `${count} товаров`;
   };
 
+  const handleToggleLiked = () => {
+    const newSearchParams = new URLSearchParams(location.search);
+    if (showOnlyLiked) {
+      newSearchParams.delete("filter");
+    } else {
+      newSearchParams.set("filter", "liked");
+    }
+    window.history.replaceState(
+      {},
+      "",
+      `${location.pathname}?${newSearchParams.toString()}`
+    );
+  };
+
   return (
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row items-start justify-between gap-4">
@@ -90,20 +101,7 @@ export function Products() {
         <SearchBar value={query} onChange={setQuery} />
         <FiltersBar
           showOnlyLiked={showOnlyLiked}
-          onToggleLiked={() => {
-            const searchParams = new URLSearchParams(location.search);
-            if (showOnlyLiked) {
-              searchParams.delete("filter");
-            } else {
-              searchParams.set("filter", "liked");
-            }
-            window.history.replaceState(
-              {},
-              "",
-              `${location.pathname}?${searchParams.toString()}`
-            );
-            setShowOnlyLiked(!showOnlyLiked);
-          }}
+          onToggleLiked={handleToggleLiked}
         />
       </div>
 
@@ -155,6 +153,8 @@ export function Products() {
                 description={p.description}
                 price={p.price}
                 thumbnail={p.thumbnail}
+                brand={p.brand}
+                category={p.category}
               />
             ))}
           </motion.div>

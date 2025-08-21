@@ -1,4 +1,3 @@
-import * as React from "react";
 import { X } from "lucide-react";
 import { useToastList } from "./use-toast";
 
@@ -8,7 +7,7 @@ export function Toaster() {
   return (
     <div className="fixed bottom-4 right-4 z-[60] flex flex-col gap-2">
       {toasts.map((t) => {
-        const variant = t.variant ?? "default"; // default | accent | outline | ghost
+        const variant = t.variant ?? "default"; 
 
         const variantClasses =
           variant === "accent"

@@ -20,7 +20,7 @@ export function FiltersBar({ showOnlyLiked, onToggleLiked }: Props) {
     }
 
     navigate(`${location.pathname}?${searchParams.toString()}`);
-    onToggleLiked(); // Вызываем оригинальную функцию для обновления состояния
+    onToggleLiked();
   };
 
   return (
@@ -33,7 +33,9 @@ export function FiltersBar({ showOnlyLiked, onToggleLiked }: Props) {
             : "text-violet-700 hover:bg-violet-100/80 bg-white/50 border border-violet-200/50 shadow-sm"
         }`}
       >
-        <FiHeart className={`w-5 h-5 ${showOnlyLiked ? "text-white" : ""}`} />
+        <FiHeart
+          className={`w-5 h-5 ${showOnlyLiked ? "text-white" : "text-red-500"}`}
+        />
         {showOnlyLiked ? "Только избранное" : "Все товары"}
       </button>
     </div>
