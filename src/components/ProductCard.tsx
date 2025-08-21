@@ -1,4 +1,3 @@
-// src/components/ProductCard.tsx
 import { Link } from "react-router-dom";
 import { Card, CardContent, CardHeader, CardTitle } from "./ui/card";
 import { FiHeart, FiTrash2 } from "react-icons/fi";
@@ -23,6 +22,8 @@ type Props = {
   description: string;
   price?: number;
   thumbnail?: string;
+  brand?: string;
+  category?: string;
 };
 
 export function ProductCard({
@@ -31,6 +32,8 @@ export function ProductCard({
   description,
   price,
   thumbnail,
+  brand,
+  category,
 }: Props) {
   const toggleLike = useProductsStore((s) => s.toggleLike);
   const remove = useProductsStore((s) => s.removeProduct);
@@ -43,7 +46,6 @@ export function ProductCard({
     toast({
       title: "Товар удалён",
       description: `"${title}" был успешно удалён`,
-      variant: "accent" as const,
     });
   };
 
@@ -62,9 +64,9 @@ export function ProductCard({
             toggleLike(id);
           }}
           className={`absolute right-3 top-3 p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-sm transition-all hover:scale-110 ${
-            liked ? "text-red-500" : "text-gray-600"
+            liked ? "text-red-500" : "text-gray-400"
           }`}
-          title="Like"
+          title={liked ? "Удалить из избранного" : "Добавить в избранное"}
         >
           <FiHeart className={`w-5 h-5 ${liked ? "fill-current" : ""}`} />
         </button>
@@ -77,7 +79,7 @@ export function ProductCard({
                 className="p-2 bg-white/90 backdrop-blur-sm rounded-xl shadow-sm transition-all hover:scale-110"
                 title="Delete"
               >
-                <FiTrash2 className="w-5 h-5 text-gray-600" />
+                <FiTrash2 className="w-5 h-5 text-gray-400" />
               </button>
             </DialogTrigger>
             <DialogContent className="bg-white/95 backdrop-blur-lg rounded-2xl border border-gray-200">
@@ -111,35 +113,55 @@ export function ProductCard({
 
         <Link to={`/products/${id}`} className="flex-1 flex flex-col">
           <CardHeader className="p-0">
-            {thumbnail ? (
-              <img
-                src={
-                  imageError
-                    ? "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200' viewBox='0 0 200 200'%3E%3Cdefs%3E%3ClinearGradient id='grad' x1='0%25' y1='0%25' x2='100%25' y2='100%25'%3E%3Cstop offset='0%25' style='stop-color:%23f3e8ff;stop-opacity:1'/%3E%3Cstop offset='100%25' style='stop-color:%23ddd6fe;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Crect width='200' height='200' fill='url(%23grad)'/%3E%3Ctext x='50%25' y='50%25' dominant-baseline='middle' text-anchor='middle' font-family='system-ui, sans-serif' font-size='14' fill='%237c3aed'%3ENo Image%3C/text%3E%3C/svg%3E"
-                    : thumbnail
-                }
-                alt={title}
-                className="w-full h-48 object-cover"
-                loading="lazy"
-                onError={() => setImageError(true)}
-              />
+            {thumbnail && !imageError ? (
+              <div className="w-full h-48 bg-gradient-to-br from-violet-50 to-indigo-100 flex items-center justify-center">
+                <img
+                  src={thumbnail}
+                  alt={title}
+                  className="max-h-44 max-w-full object-contain"
+                  loading="lazy"
+                  onError={() => setImageError(true)}
+                />
+              </div>
             ) : (
               <div className="w-full h-48 bg-gradient-to-br from-violet-100 to-violet-200 flex items-center justify-center">
-                <span className="text-violet-500 font-medium">No Image</span>
+                <img
+                  src="/app-products/placeholder.svg"
+                  alt="Placeholder"
+                  className="w-16 h-16 object-contain opacity-70"
+                  onError={(e) => {
+                    e.currentTarget.style.display = "none";
+                  }}
+                />
               </div>
             )}
           </CardHeader>
-          <CardContent className="flex-1 flex flex-col justify-between p-4">
-            <div>
-              <CardTitle className="mb-2 text-gray-900 text-lg font-bold line-clamp-2">
+          <CardContent className="flex-1 flex flex-col justify-between p-4 space-y-3">
+            <div className="space-y-2">
+              <CardTitle className="text-gray-900 text-lg font-bold line-clamp-2">
                 {title}
               </CardTitle>
-              <p className="text-gray-600 line-clamp-3 text-sm">
+
+              <div className="flex flex-wrap gap-1">
+                {brand && (
+                  <span className="bg-violet-100 text-violet-700 px-2 py-1 rounded-full text-xs font-medium">
+                    {brand}
+                  </span>
+                )}
+                {category && (
+                  <span className="bg-indigo-100 text-indigo-700 px-2 py-1 rounded-full text-xs font-medium">
+                    {category}
+                  </span>
+                )}
+              </div>
+
+              <p className="text-gray-600 line-clamp-2 text-sm">
                 {description}
               </p>
             </div>
+
             {price !== undefined && (
-              <p className="mt-3 font-bold text-violet-700 text-lg">${price}</p>
+              <p className="font-bold text-violet-700 text-lg">${price}</p>
             )}
           </CardContent>
         </Link>

@@ -49,7 +49,6 @@ export function subscribe(listener: Listener) {
   };
 }
 
-// --- публичный API ---
 export function useToast() {
   const toast = React.useCallback(
     (opts: Omit<ToastItem, "id">) => ({ id: add(opts) }),
