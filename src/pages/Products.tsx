@@ -5,6 +5,7 @@ import { Pagination } from "../components/Pagination";
 import { SearchBar } from "../components/SearchBar";
 import { FiltersBar } from "../components/FiltersBar";
 import { motion } from "framer-motion";
+import { useLocation } from "react-router-dom";
 
 const PAGE_SIZE = 12;
 
@@ -13,10 +14,17 @@ export function Products() {
   const [showOnlyLiked, setShowOnlyLiked] = useState(false);
   const [query, setQuery] = useState("");
   const [page, setPage] = useState(1);
+  const location = useLocation();
 
   useEffect(() => {
     fetchAll();
   }, [fetchAll]);
+
+  // Обрабатываем query параметры для фильтра избранного
+  useEffect(() => {
+    const searchParams = new URLSearchParams(location.search);
+    setShowOnlyLiked(searchParams.get("filter") === "liked");
+  }, [location.search]);
 
   useEffect(() => {
     setPage(1);
@@ -69,13 +77,13 @@ export function Products() {
           Каталог товаров
         </h1>
         <div className="flex items-center gap-4">
-          <p className="text-violet-600 font-medium">
-            <span className="bg-violet-100 px-3 py-1 rounded-full text-violet-700">
+          <div className="bg-white/80 backdrop-blur-sm rounded-xl px-4 py-2 border border-violet-200/50 shadow-sm">
+            <p className="text-violet-700 font-medium">
               {getCounterText()}
               {showOnlyLiked && " в избранном"}
               {query && " найдено"}
-            </span>
-          </p>
+            </p>
+          </div>
         </div>
       </div>
 
@@ -83,7 +91,20 @@ export function Products() {
         <SearchBar value={query} onChange={setQuery} />
         <FiltersBar
           showOnlyLiked={showOnlyLiked}
-          onToggleLiked={() => setShowOnlyLiked((v) => !v)}
+          onToggleLiked={() => {
+            const searchParams = new URLSearchParams(location.search);
+            if (showOnlyLiked) {
+              searchParams.delete("filter");
+            } else {
+              searchParams.set("filter", "liked");
+            }
+            window.history.replaceState(
+              {},
+              "",
+              `${location.pathname}?${searchParams.toString()}`
+            );
+            setShowOnlyLiked(!showOnlyLiked);
+          }}
         />
       </div>
 
