@@ -20,7 +20,6 @@ export function Products() {
     fetchAll();
   }, [fetchAll]);
 
-  // Обрабатываем query параметры для фильтра избранного
   useEffect(() => {
     const searchParams = new URLSearchParams(location.search);
     setShowOnlyLiked(searchParams.get("filter") === "liked");
@@ -55,7 +54,7 @@ export function Products() {
   const current = filtered.slice((page - 1) * PAGE_SIZE, page * PAGE_SIZE);
 
   const getCounterText = () => {
-    if (filtered.length === 0) return "Нет товаров";
+    if (filtered.length === 0) return "0 товаров";
 
     const count = filtered.length;
     const lastDigit = count % 10;

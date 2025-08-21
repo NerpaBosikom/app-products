@@ -104,7 +104,7 @@ export function CreateProduct() {
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
                 placeholder="Опишите товар подробно"
-                className="w-full px-4 py-3 bg-white/80 border border-gray-300 rounded-xl resize-none transition-colors focus:border-violet-400 focus:ring-2 focus:ring-violet-400 focus:outline-none hover:border-violet-300"
+                className="w-full px-4 py-3 bg-white/80 border border-violet-300 rounded-xl resize-none transition-colors focus:border-violet-400 focus:ring-2 focus:ring-violet-400 focus:outline-none hover:border-violet-300"
                 rows={4}
                 required
               />

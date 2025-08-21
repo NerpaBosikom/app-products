@@ -10,7 +10,7 @@ import { Toaster } from "./components/ui/toaster";
 function App() {
   return (
     <div className="min-h-screen bg-gradient-to-br from-violet-50 to-indigo-100 flex flex-col">
-      <Header /> {/* Просто Header без пропсов */}
+      <Header />
       <main className="container mx-auto px-4 py-6 flex-1">
         <Routes>
           <Route path="/" element={<Products />} />
