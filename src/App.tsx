@@ -1,5 +1,6 @@
 import { Routes, Route } from "react-router-dom";
 import { Header } from "./components/Header";
+import { Footer } from "./components/Footer";
 import { Products } from "./pages/Products";
 import { CreateProduct } from "./pages/CreateProduct";
 import { ProductDetails } from "./pages/ProductDetails";
@@ -19,6 +20,7 @@ function App() {
           <Route path="/edit-product/:id" element={<EditProduct />} />
         </Routes>
       </main>
+      <Footer />
       <Toaster />
     </div>
   );
