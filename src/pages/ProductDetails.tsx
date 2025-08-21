@@ -51,17 +51,17 @@ export function ProductDetails() {
                   <img
                     src={product.thumbnail}
                     alt={product.title}
-                    className="max-h-80 max-w-full object-contain rounded-xl"
+                    className="max-h-64 max-w-full object-contain rounded-xl"
                     loading="lazy"
                     onError={() => setImageError(true)}
                   />
                 </div>
               ) : (
-                <div className="w-full aspect-square bg-gradient-to-br from-violet-100 to-violet-200 rounded-2xl flex items-center justify-center">
+                <div className="w-full aspect-square bg-gradient-to-br from-violet-100/80 to-violet-200/80 backdrop-blur-sm rounded-2xl flex items-center justify-center">
                   <img
                     src="/app-products/placeholder.svg"
                     alt="No Image"
-                    className="w-24 h-24 object-contain opacity-70"
+                    className="w-20 h-20 object-contain opacity-80"
                     onError={(e) => {
                       e.currentTarget.style.display = "none";
                     }}

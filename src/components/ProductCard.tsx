@@ -118,17 +118,17 @@ export function ProductCard({
                 <img
                   src={thumbnail}
                   alt={title}
-                  className="max-h-44 max-w-full object-contain"
+                  className="max-h-40 max-w-full object-contain"
                   loading="lazy"
                   onError={() => setImageError(true)}
                 />
               </div>
             ) : (
-              <div className="w-full h-48 bg-gradient-to-br from-violet-100 to-violet-200 flex items-center justify-center">
+              <div className="w-full h-48 bg-gradient-to-br from-violet-100/80 to-violet-200/80 backdrop-blur-sm flex items-center justify-center">
                 <img
                   src="/app-products/placeholder.svg"
                   alt="Placeholder"
-                  className="w-16 h-16 object-contain opacity-70"
+                  className="w-12 h-12 object-contain opacity-80"
                   onError={(e) => {
                     e.currentTarget.style.display = "none";
                   }}
