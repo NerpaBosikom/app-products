@@ -1,6 +1,3 @@
-Отличный README! Небольшие улучшения для лучшей читаемости:
-
-````markdown
 # ProductsHub - Тестовое приложение
 
 SPA приложение для управления каталогом товаров с возможностью добавления, редактирования, поиска и фильтрации.
@@ -37,7 +34,6 @@ git clone <repository-url>
 cd app-products
 npm install
 ```
-````
 
 ### Запуск в development режиме
 
@@ -98,6 +94,4 @@ src/
 
 Приложение доступно на GitHub Pages: [https://nerpabosikom.github.io/app-products/](https://nerpabosikom.github.io/app-products/)
 
-```
 
-```
