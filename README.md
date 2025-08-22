@@ -30,7 +30,7 @@ SPA приложение для управления каталогом това
 ### Установка
 
 ```bash
-git clone <repository-url>
+git clone https://github.com/NerpaBosikom/app-products.git
 cd app-products
 npm install
 ```
