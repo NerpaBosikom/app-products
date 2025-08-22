@@ -44,7 +44,7 @@ export function SearchBar({ value, onChange }: Props) {
       />
 
       {showHint && (
-        <div className="absolute top-full left-0 right-0 mt-2 bg-white/95 backdrop-blur-lg rounded-xl p-3 border border-violet-200 shadow-lg z-50">
+        <div className="absolute bottom-full left-0 right-0 mb-2 bg-white/95 backdrop-blur-lg rounded-xl p-3 border border-violet-200 shadow-lg z-50">
           <div className="flex items-center gap-2 text-violet-700">
             <FiInfo className="w-4 h-4 text-violet-600 flex-shrink-0" />
             <span className="text-sm font-medium">
