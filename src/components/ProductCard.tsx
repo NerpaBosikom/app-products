@@ -11,6 +11,7 @@ import {
   DialogDescription,
   DialogFooter,
   DialogTrigger,
+  DialogClose,
 } from "./ui/dialog";
 import { Button } from "./ui/button";
 import { useToast } from "./ui/use-toast";
@@ -93,12 +94,14 @@ export function ProductCard({
                 </DialogDescription>
               </DialogHeader>
               <DialogFooter className="flex gap-2 justify-end">
-                <Button
-                  variant="outline"
-                  className="border-gray-300 text-gray-700 hover:bg-gray-50"
-                >
-                  Отмена
-                </Button>
+                <DialogClose asChild>
+                  <Button
+                    variant="outline"
+                    className="border-gray-300 text-gray-700 hover:bg-gray-50"
+                  >
+                    Отмена
+                  </Button>
+                </DialogClose>
                 <Button
                   variant="default"
                   className="bg-gradient-to-br from-red-600 to-red-700 hover:from-red-700 hover:to-red-800 text-white"
